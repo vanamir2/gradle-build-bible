@@ -31,19 +31,31 @@ tasks.register('sayHello') {
 #### 1) Tasks.register
 
 Best approach as it avoid unnecesary configuration. Class-based task (of Copy class):
+See more about performance: https://docs.gradle.org/current/userguide/task_configuration_avoidance.html
+
 ```groovy
 tasks.register('generateDescriptions', Copy) {
 // configure task
 }
 ```
 
-#### 2) Project.task
+#### 2) task
 
-Has worse performance
+Uses [Project.task()](https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html#task-java.lang.String-) method. Has worse performance
 
 ```groovy
 task('generateDescriptions', type: Copy)
 ```
+
+Example of class based task:
+```groovy
+task generateDescriptions(type: Copy) {
+    from 'descriptions'
+    into "$buildDir/descriptions"
+    filter(ReplaceTokens, tokens: [THEME_PARK_NAME: "Grelephant's Wonder World"])
+}
+```
+
 ### Locating tasks
 
 Configuration of already defined tasks.
@@ -76,6 +88,7 @@ Do not have to work with all plugins.
 tasks.clean {
     doLast {
         println 'Squeaky clean!'
+        
     }
 }
 ```
@@ -89,3 +102,14 @@ Unfortunately it also returns Task so there is perf downside.
 # Tips
 
 - Verbose console: `--console=verbose `
+- Tasks default parameters (configuration like group, description, enabled) is [here](https://docs.gradle.org/current/javadoc/org/gradle/api/Task.html) - look for setters.
+```groovy
+tasks.register('sayBye') {
+    doLast {
+        println 'Bye!'
+    }
+    onlyIf {
+        2 == 3 * 2
+    }
+}
+```
