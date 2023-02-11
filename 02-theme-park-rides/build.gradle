@@ -1,0 +1,23 @@
+
+
+plugins{
+    id 'base'
+}
+
+def COOL_NAME = 'Grelephants Wonder World'
+
+defaultTasks 'zipDescription'
+
+tasks.register('replaceToken', Copy){
+    group 'Theme park'
+    description 'Generates ride descriptions including token substitution.'
+    from 'descriptions'
+    into "$buildDir/descriptions"
+    filter { line -> line.replaceAll('@THEME_PARK_NAME@', COOL_NAME) }
+}
+
+tasks.register('zipDescription', Zip) {
+    from "$buildDir/descriptions"
+    archiveFileName = 'descriptions.zip'                      
+    destinationDirectory = buildDir
+}
