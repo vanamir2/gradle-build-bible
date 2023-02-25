@@ -98,9 +98,23 @@ tasks.clean {
 In Groovy DSL it is possible to use configuration by using task name.
 Unfortunately it also returns Task so there is perf downside.
 
+
+```groovy
+clean {
+    doLast {
+        println 'Squeaky clean!'
+    }
+}
+```
+
 ### Task dependencies and ordering
 
-TODO
+- **dependsOn** prepareOutput - current task needs input from _prepareOutput_. Means that _prepareOutput_ will be executed automatically before the current task. 
+- **mustRunAfter** zipAll - forces task order - current task must run after task B (it has effect of both tasks are actually going to take part int the build)
+- **finalizedBy** taskA - taskA will be always executed after this task. TaskA will be executed even if the current task fails. Similar to finally section in try-catch. 
+
+### Task inputs and outputs
+
 
 
 

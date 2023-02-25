@@ -17,6 +17,14 @@ tasks.register('replaceToken', Copy){
 
 tasks.register('zipDescription', Zip) {
     from "$buildDir/descriptions"
-    archiveFileName = 'descriptions.zip'                      
+    archiveFileName = 'descriptions.zip'
+    dependsOn replaceToken
+    finalizedBy confirmFinish
     destinationDirectory = buildDir
+}
+
+tasks.register('confirmFinish') {
+    doLast {
+        println 'Finito'
+    }
 }
