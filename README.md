@@ -98,6 +98,11 @@ tasks.clean {
 In Groovy DSL it is possible to use configuration by using task name.
 Unfortunately it also returns Task so there is perf downside.
 
+### Task dependencies and ordering
+
+TODO
+
+
 
 # Tips
 
