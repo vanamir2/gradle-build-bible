@@ -7,7 +7,7 @@ def COOL_NAME = 'Grelephants Wonder World'
 
 defaultTasks 'zipDescription'
 
-tasks.register('replaceToken', Copy){
+tasks.register('generateDescription', Copy){
     group 'Theme park'
     description 'Generates ride descriptions including token substitution.'
     from 'descriptions'
@@ -16,9 +16,9 @@ tasks.register('replaceToken', Copy){
 }
 
 tasks.register('zipDescription', Zip) {
-    from "$buildDir/descriptions"
+    from generateDescription
     archiveFileName = 'descriptions.zip'
-    dependsOn replaceToken
+    dependsOn generateDescription // this is linked automatically due to using output from generateDescription task
     finalizedBy confirmFinish
     destinationDirectory = buildDir
 }
