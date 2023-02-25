@@ -2,12 +2,18 @@
 
 build script = build.gradle or build.gradle.kts
 
-
 - _build.gradle_ = Gradle build script definition
 - _settings.gradle_ = project name and other project settings
 - _build_ directory which containts generated filed and artifacts
 
 The highest level Gradle concept is the project. Builds scripts configures project. Project is a Java object.
+
+### Project configuration
+
+- description ... shown when you execute the projects task
+- group - describes who the project belongs to - describes the orhanization - its used as an ID when publishing artifacts
+- version - used when publishing artifacts
+
 
 ## Build lifecycle
 
