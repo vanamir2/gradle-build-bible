@@ -2,6 +2,11 @@
 
 build script = build.gradle or build.gradle.kts
 
+
+- _build.gradle_ = Gradle build script definition
+- _settings.gradle_ = project name and other project settings
+- _build_ directory which containts generated filed and artifacts
+
 The highest level Gradle concept is the project. Builds scripts configures project. Project is a Java object.
 
 ## Build lifecycle
@@ -113,9 +118,67 @@ clean {
 - **mustRunAfter** zipAll - forces task order - current task must run after task B (it has effect of both tasks are actually going to take part int the build)
 - **finalizedBy** taskA - taskA will be always executed after this task. TaskA will be executed even if the current task fails. Similar to finally section in try-catch. 
 
-### Task inputs and outputs
+### Input and output linking
 
+- https://docs.gradle.org/current/userguide/incremental_build.html#sec:link_output_dir_to_input_files
+- https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/TaskInputs.html
 
+### Applying plugins
+
+Recommended definition:
+
+```groovy
+plugins {
+    id 'org.barfuin.gradle.taskinfo' version '1.3.1'
+}
+```
+
+Legacy definition with missiong optimisations and IntelliJ IDEA broken integration:
+
+```groovy
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.org.barfuin.gradle.taskinfo:gradle-taskinfo:1.3.1"
+    }
+}
+apply plugin: "org.barfuin.gradle.taskinfo"
+```
+
+How to search 3dr party plugins: https://plugins.gradle.org/ </br>
+Core Gradle plugins: https://docs.gradle.org/current/userguide/plugin_reference.html
+
+### Repositories and Dependencies
+
+When searching for dependencies, repositories are used in provided order - declare the repo with the most dependencies first. 
+
+```groovy
+repositories {
+    mavenCentral()
+    google()
+    maven {
+        url 'https://my-custom-repo.com'
+    }
+}
+```
+
+Java classpath = list of files passed to Java when it complies and executes the code.
+- Analogy in Gradle are compile and runtime classpaths.
+
+Example how to declare runtime+compile time dependency with excluded transitive dependency.
+
+```groovy
+dependencies {
+    implementation(group = "commons-beanutils", name = "commons-beanutils", version =
+            "1.9.4") {
+        exclude(group = "commons-collections", module = "commons-collections")
+    }
+}
+```
 
 
 # Tips
