@@ -218,4 +218,5 @@ tasks.register('sayBye') {
 }
 ```
 
+- we should **avoid using mavenLocal()**, see detailed info here: https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:case-for-maven-local
 
