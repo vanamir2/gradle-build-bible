@@ -8,6 +8,22 @@ build script = build.gradle or build.gradle.kts
 
 The highest level Gradle concept is the project. Builds scripts configures project. Project is a Java object.
 
+### Closures
+
+- Groovy Closures - see https://groovy-lang.org/closures.html
+
+Closure delegates
+- Each closure has a delegate object - usable to look up variables and method references to non-local variables and closure parameters.
+- Heavily used for configuration, where delegate object refers  to object being configured.
+
+```groovy
+dependencies {
+    assert delegate == project.dependencies
+    testImplementation("junit:junit:4.13")
+    delegate.testImplementation("junit:junit:4.13")
+}
+```
+
 ### Project configuration
 
 - description ... shown when you execute the projects task
@@ -201,3 +217,5 @@ tasks.register('sayBye') {
     }
 }
 ```
+
+
