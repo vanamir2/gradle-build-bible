@@ -206,6 +206,8 @@ dependencies {
 # Tips
 
 - Verbose console: `--console=verbose `
+- Wrapper upgrade from CMD `./gradlew wrapper --gradle-version 8.0.2`
+- help for specific command `gradle help --task wrapper`
 - Tasks default parameters (configuration like group, description, enabled) is [here](https://docs.gradle.org/current/javadoc/org/gradle/api/Task.html) - look for setters.
 ```groovy
 tasks.register('sayBye') {
