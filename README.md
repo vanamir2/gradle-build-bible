@@ -258,6 +258,36 @@ tasks.named('jar') {
 }
 ```
 
+### 4.4 Tasks in Java projects
+
+Gradle _build_ task has no actions, it only aggregate _assemble_ and _check_ tasks together.
+- Similar tasks like _build_ tasks are sometimes called lifecycle tasks in Gradle documentation.
+
+![img.png](BuildTasks.png)
+
+Plugin to print task dependencies: https://github.com/dorongold/gradle-task-tree.
+ - `./gradlew build taskTree` 
+
+### 4.5 Dependencies in Java projects
+
+Production classpaths
+- _compile classpath_ to compile production code
+- _runtime classpath_ to run compiled code
+
+Why not to make life easier and use the same classpath for compiling and running?
+- compile classpath clean = compilation is more efficient, since Java doesn't have to laod unnecessary libraries
+- runtime classpath clean = reduced size of our deployable (not needed libraries are not included)
+
+![img.png](productionClasspath.png)
+
+Resolvable = classpath can be generated from them. However, you can't declare dependencies againts them.
+
+**compileOnly** - useful when an app will be deployed in an environment where that library is already provided. For example servlet-api which is provided by Tomcat instance.
+**implementation** - the most used - when application's code interacts directly with the code from library. For example StringUtils from Apache commons-lang3 - that library needs to be on **compile and _runtime_ classpath = needs to be declared againts implementation.
+**runtimeOnly** - for example DB connector (JDBC, JPA) which will be included at runtime
+
+
+
 # Tips
 
 - Verbose console: `--console=verbose `
