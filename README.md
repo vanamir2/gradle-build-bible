@@ -188,10 +188,10 @@ repositories {
 }
 ```
 
-Java classpath = list of files passed to Java when it complies and executes the code.
+**Java** **classpath** = list of files passed to Java when it complies and executes the code.
 - Analogy in Gradle are compile and runtime classpaths.
 
-Example how to declare runtime+compile time dependency with excluded transitive dependency.
+Example how to declare **runtime**+**compile** time dependency with excluded transitive dependency.
 
 ```groovy
 dependencies {
@@ -202,6 +202,61 @@ dependencies {
 }
 ```
 
+## CH4 Working with Java projects in Gradle
+
+**Essential features** for building Java applications:
+ - Compiling classes ( .java -> .class)
+   - `./gradlew compileJava` 
+ - Manage resources (other files like HTML, images, ...)
+    - `./gradlew processResources`
+ - Handle dependencies (references to app dependencies)
+   - dependencies block 
+ - Package - put all classes and resources into a single artifact
+   - `./gradlew jar`
+ - Run tests (they mostly need different classpath then main application)
+   - `./gradlew test`
+
+**Developer workflow features** expected from build tools:
+ - run app
+ - manage Java versions
+ - seperate unit & integration tests
+ - publish artifact
+
+### 4.2 The Gradle Java plugin
+
+java plugin adds tasks for essential features mentioned above.
+
+```groovy
+plugins {
+    id 'java'
+}
+```
+
+Project layout that is expected by java plugin.
+
+- `src/main/java` Java plugins expects to find classes there
+- `src/main/resources` resources
+- `src/test/java` test classes
+- `src/test/resources` test resources
+
+
+### 4.3 Building a Java project with Gradle
+
+Running .jar file using java -jar and there is "no main manifest attribute" error?
+
+```text
+no main manifest attribute, in ./build/libs/06-theme-park-rides-status.jar
+```
+
+That means that Java doesn't know which class to execute. We can fix this by adding manifest:
+
+```groovy
+tasks.named('jar') {
+   manifest {
+      attributes('Main-Class': 'com.gradlehero.themepark.RideStatusService')
+   }
+}
+```
 
 # Tips
 
