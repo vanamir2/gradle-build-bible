@@ -280,10 +280,21 @@ Why not to make life easier and use the same classpath for compiling and running
 
 ![img.png](productionClasspath.png)
 
-Resolvable = classpath can be generated from them. However, you can't declare dependencies againts them.
+#### 4.5.1 Resolvable vs Unresolvable
 
-**compileOnly** - useful when an app will be deployed in an environment where that library is already provided. For example servlet-api which is provided by Tomcat instance.
-**implementation** - the most used - when application's code interacts directly with the code from library. For example StringUtils from Apache commons-lang3 - that library needs to be on **compile and _runtime_ classpath = needs to be declared againts implementation.
+**Resolvable** = classpath can be generated from them. However, you can't declare dependencies againts them.
+- A configuration that can be resolved is a configuration for which we can compute a dependency graph, because it contains all the necessary information for resolution to happen.That is to say we’re going to compute a dependency graph, resolve the components in the graph, and eventually get artifacts. 
+- [See Gradle userguide](https://docs.gradle.org/current/userguide/declaring_dependencies.htm)
+
+**Unresolvable**
+- A configuration which has canBeResolved set to false is not meant to be resolved. Such a configuration is there only to declare dependencies.
+
+To some extent, this is similar to an abstract class (canBeResolved=false) which is not supposed to be instantiated, and a concrete class extending the abstract class (canBeResolved=true). A resolvable configuration will extend at least one non-resolvable configuration (and may extend more than one).
+
+#### 4.5.2 Classpath types 
+
+**compileOnly** - useful when an app will be deployed in an environment where that library is already provided. For example servlet-api which is provided by Tomcat instance. </br>
+**implementation** - the most used - when application's code interacts directly with the code from library. For example StringUtils from Apache commons-lang3 - that library needs to be on **compile and _runtime_ classpath = needs to be declared againts implementation.</br>
 **runtimeOnly** - for example DB connector (JDBC, JPA) which will be included at runtime
 
 
