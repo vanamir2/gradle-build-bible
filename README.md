@@ -275,7 +275,7 @@ Production classpaths
 - _runtime classpath_ to run compiled code
 
 Why not to make life easier and use the same classpath for compiling and running?
-- compile classpath clean = compilation is more efficient, since Java doesn't have to laod unnecessary libraries
+- compile classpath clean = compilation is more efficient, since Java doesn't have to load unnecessary libraries
 - runtime classpath clean = reduced size of our deployable (not needed libraries are not included)
 
 ![img.png](productionClasspath.png)
@@ -296,6 +296,36 @@ To some extent, this is similar to an abstract class (canBeResolved=false) which
 **compileOnly** - useful when an app will be deployed in an environment where that library is already provided. For example servlet-api which is provided by Tomcat instance. </br>
 **implementation** - the most used - when application's code interacts directly with the code from library. For example StringUtils from Apache commons-lang3 - that library needs to be on **compile and _runtime_ classpath = needs to be declared againts implementation.</br>
 **runtimeOnly** - for example DB connector (JDBC, JPA) which will be included at runtime
+
+**Test classpaths**
+
+![img.png](testCLasspaths.png)
+
+
+**Annotation procesors**
+
+When Java code is compiled it has a nice feature whereby additional source files can be generated
+by so-called annotation processors. The Java compiler accepts a processor path option on the
+command line, which is a list of all the annotation processor libraries.
+
+The `nnotationProcessor` dependency configuration is used to control this processor path.
+
+One example of this is the mapstruct library which generates mappers, classes which map one data
+representation to another.
+
+```groovy
+annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+```
+
+Another example is when you’re using the lombok library, which at compile time can generate
+boilerplate code like equals, hashCode, and toString methods.
+
+```groovy
+annotationProcessor 'org.projectlombok:lombok:1.18.20'
+```
+
+### 4.6 Build customisations
+
 
 
 
