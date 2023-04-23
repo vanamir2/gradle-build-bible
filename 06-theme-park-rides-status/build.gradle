@@ -6,7 +6,7 @@
  */
 
 plugins{
-    id 'java'
+    id 'application' // application plugins includes 'java' plugin and serves to run java apps
     id "com.dorongold.task-tree" version "2.1.1"
 }
 
@@ -19,12 +19,36 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.verbose = false
+}
+
+tasks.named('processResources'){
+    include '**/*.txt'
+}
+
+tasks.named('jar'){
+    archiveBaseName = 'parkRideStatus'
 }
 
 tasks.named('jar') {
     manifest {
         attributes('Main-Class': 'com.gradlehero.themepark.RideStatusService')
     }
+}
+
+tasks.register('runJar', JavaExec) {
+    classpath tasks.named('jar').map { it.outputs } // take output of jar task and put it under runJar classpath
+    classpath configurations.runtimeClasspath // adds also runtime libraries (implementation and compileOnly)
+    args ' teacups'
+    mainClass = 'com.gradlehero.themepark.RideStatusService' // in case there are multiple jars (from dependencies), we need to define mainClass
+}
+
+application { // Configuring application plugin mainClass
+    mainClass = 'com.gradlehero.themepark.RideStatusService'
 }
 
 tasks.withType(Test).configureEach {

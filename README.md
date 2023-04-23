@@ -326,8 +326,67 @@ annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
 ### 4.6 Build customisations
 
+Now imagine we want to configure both compileJava and compileTestJava in the same way. Rather
+than configuring each task separately, there’s a way you can locate tasks by class type.
+
+```groovy
+tasks.withType(JavaCompile).configureEach {
+    options.verbose = true
+}
+```
+
+Situation - we process our project resources with the command `processResources` and we don't want that some files ends up in producition jar. We [can define](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Copy.html) _include_/_exclude_ pattern like this:
+
+```groovy
+tasks.named('processResources'){
+    include '**/*.txt' //OR includes = '*.txt'
+}
+```
+
+**How to customise .jar?** 
+
+For example to change jar name:
+```groovy
+tasks.named('jar'){
+    archiveBaseName = 'parkRideStatus'
+}
+```
+
+### 4.7 Running Java applications
+
+We can use _application_ plugin to run application like `./gradlew run`. It doesn't build .jar, it depends only on the "classses" task (compile Java and resources).
+
+To properly run our application we need to define main class:
+
+```groovy
+plugins {
+   id 'application'
+}
+
+application { // Configuring application plugin mainClass
+   mainClass = 'com.gradlehero.themepark.RideStatusService'
+}
+```
+
+We can also create a custom task to run app from .jar file:
+
+```groovy
+tasks.register('runJar', JavaExec) {
+    classpath tasks.named('jar').map { it.outputs } // take output of jar task and put it under runJar classpath
+    classpath configurations.runtimeClasspath // adds also runtime libraries (implementation and compileOnly)
+    args ' teacups'
+    mainClass = 'com.gradlehero.themepark.RideStatusService' // in case there are multiple jars (from dependencies), we need to define mainClass
+}
+```
+
+It is possible to debug Gradle tasks
+
+![img.png](debugGradleTask.png)
 
 
+### 4.8 Testing Java applications
+
+TODO
 
 # Tips
 
@@ -346,5 +405,7 @@ tasks.register('sayBye') {
 }
 ```
 
-- we should **avoid using mavenLocal()**, see detailed info here: https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:case-for-maven-local
+- we should **avoid using mavenLocal()**, see detailed info [here](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:case-for-maven-local)
 
+- Plugin to [print task dependencies](https://github.com/dorongold/gradle-task-tree.): 
+  - `./gradlew build taskTree` 
