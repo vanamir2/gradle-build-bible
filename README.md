@@ -386,7 +386,44 @@ It is possible to debug Gradle tasks
 
 ### 4.8 Testing Java applications
 
+See [this](https://docs.gradle.org/current/dsl/org.gradle.api.tasks.testing.Test.html) page.
+
+If your application uses a lot of memory, you might consider changing maxHeapSize, which defaults
+to 512mb.
+
+```groovy
+  // set heap size for the test JVM(s)
+  minHeapSize = "128m"
+  maxHeapSize = "512m"
+```
+
+It is possible to run Gradle tests with [various settings](https://docs.gradle.org/current/userguide/java_testing.html#simple_name_pattern) like:
+```
+./gradlew test --tests org.gradle.SomeTestClass.someSpecificMethod
+```
+
+**cleanTest (for flaky tests)**
+
+- Tests are cached by default and in case there are no changes to code, then the Gradle expect that the results will be the same again. 
+To re-run test again use `cleanTest` to prevent unneeded build of the whole project. Do not use `clean`!
+
+![img.png](cachedTestTasks.png)
+
+
+### 4.9 Adding integration tests to a project
+
+It is a good practise to have possibility to run unit and integration tests separately. We can use following plugin: 
+
+```groovy
+plugins {
+    id 'org.unbroken-dome.test-sets' version '4.0.0'
+}
+```
+
+### 4.10 Controlling Java versions
+
 TODO
+
 
 # Tips
 
