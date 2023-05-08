@@ -461,7 +461,59 @@ tasks.withType(JavaExec).configureEach {
 
 ### 4.11 Publishing to Maven
 
-TODO
+Publishing artifact = transferring artifact from the build directory to a remote Maven repository.
+
+#### maven-publish plugin
+
+To configure:
+- the artifact we want to publish
+- the repository where we want to publish
+
+
+```groovy
+plugins {
+    id 'maven-publish'
+}
+
+publishing {
+    // Artifact definition
+    publications {
+        maven(MavenPublication) {
+            from components.java // from Java plugin, represents the jar file create by jar task
+        }
+    }
+    // Target repo definition
+    repositories {
+        maven {
+            name = 'maven'
+            url '<your-repository-url>'
+            credentials {
+                username 'aws'
+                password System.getenv("CODEARTIFACT_AUTH_TOKEN")
+            }
+        }
+    }
+}
+```
+- _components_ are defined by plugins and provide a simple way to reference a publication
+  for publishing. This java component has been added by the java plugin, and represents the jar file
+  created by the jar task.
+
+#### Maven local
+
+To publish your artifact to local Maven repo run `./gradlew publishToMavenLocal` (it needs group and version defined)
+
+```groovy
+group 'com.gradlehero'
+version '1.0-SNAPSHOT'
+```
+
+Then you can find your jar in `~/.m2/repository/$group/version/YOUR_JAR` and run `java -jar YOUR_JAR`
+- warning: the *.jar file may miss dependencies. To have complete bundle (fat jar) use Shadowplugin and its `shadowJar` task.
+
+### 4.12 Practical: Building Spring Boot applications
+
+
 
 
 
