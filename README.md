@@ -539,9 +539,55 @@ The plugin above provides `./gradlew bootRun` to run the app.
 
 ### 4.13 Building Java libraries
 
+In Gradle you can build 2 types of Java projects:
+1. **Application** 
+   2. Standalone service which actually gets run, like web application, API service or desktop application.
+   3. Consumer (consuming libraries)
+3. **Library**
+   4. Artifact that isn't intended to be run standalone, but is consumed by other libraries or applications to create something else. 
+   5. Producer.
+
+Why is consumer vs producer important?
+- _implementation_ dependencies of the library will end up on the _runtime_ classpath of any consumer, but not on the _compile_ classpath.
+
+**ABI** application binary interface
+- Let's say we have the following method
+- ```java
+    public static ObjectNode getRideStatus(String ride) {
+      List<String> rideStatuses = readFile(String.format("%s.txt", StringUtils.trim(ride)));
+      String rideStatus = rideStatuses.get(new Random().nextInt(rideStatuses.size()));
+      ObjectNode node = new ObjectMapper().createObjectNode();
+      node.put("status", rideStatus);
+      return node;
+    }
+    ```
+  - In case we use a library with the following method. We will need _ObjectNode_ to be on our _**compile**_ classpath so we are able to operate with return value = ABI.
+  - Whereas StringUtils.trim() is not the ABI, and it is needed only at _**runtime**_
+
+What falls under ABI?
+- return types (as ObjectNode in example above)
+- public method parameters
+- types used in parent classes or interfaces
+
+
+#### Compile vs Runtime when using libraries
+
+Due to ABI it may happen that we will need the following scenario in our consumer app:
+![img.png](./images/compileVsRuntime.png)
+
+What benefits would be to selectively build up classpaths like this?
+- cleaner classpaths (faster compilation)
+- won't accidentally use a library that we haven't depended on explicitly
+- less recompilation, since we do not need to recompile when runtime classpath change
+
+**The Java Library plugin** makes it possible using `api`.
+  - `api` dependencies are part of the library's ABI.
+    - Therefore, they will appear on the _compile_ and _runtime classpaths_ of any consumer.
+  - `implementation` dependencies aren't part of the library's ABI, and will appear only on the _runtime classpath_ of consumers.
+
+## CH5 Organising Gradle projects effectively
+
 TODO
-
-
 
 # Tips
 
