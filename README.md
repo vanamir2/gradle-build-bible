@@ -523,7 +523,19 @@ There are 2 main plugins to work with Spring Boot
   - Making sure Spring Boot dependencies stay consistent
 
 
+#### Basic setup + commands
 
+See build.gradle in _07-theme-park-api_.
+
+```groovy
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.6'
+}
+```
+
+The plugin above provides `./gradlew bootRun` to run the app.
+ - After running `./gradlew assemble` we can run simply `java -jar build/libs/07-theme-park-api.jar` to run the Spring Boot app from jar.
 
 # Tips
 
