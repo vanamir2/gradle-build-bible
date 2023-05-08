@@ -393,8 +393,10 @@ to 512mb.
 
 ```groovy
   // set heap size for the test JVM(s)
-  minHeapSize = "128m"
-  maxHeapSize = "512m"
+test {
+    minHeapSize = "128m"
+    maxHeapSize = "512m"
+}
 ```
 
 It is possible to run Gradle tests with [various settings](https://docs.gradle.org/current/userguide/java_testing.html#simple_name_pattern) like:
@@ -417,6 +419,10 @@ It is a good practise to have possibility to run unit and integration tests sepa
 ```groovy
 plugins {
     id 'org.unbroken-dome.test-sets' version '4.0.0'
+}
+
+testSets {
+    integrationTest # invokes the tests under src/integrationTest/java
 }
 ```
 
