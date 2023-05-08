@@ -587,7 +587,67 @@ What benefits would be to selectively build up classpaths like this?
 
 ## CH5 Organising Gradle projects effectively
 
+### 5.2 Project properties
+
+Helpful to store passwords that we do not want to commit. 
+
+```groovy
+repositories {
+    maven {
+        url '<your-repository-url>'
+        credentials {
+            username 'aws'
+            password mavenPassword // property
+        }
+    }
+}
+```
+
+Then we can run the task with -P flag to add properties
+ - `./gradlew publish -PmavenPassword=<password>`
+
+Other examples:
+- deployment - extra information like region to which to deploy.
+- test memory allocation - configure maxHeapSize by different environments.
+- DB connection string
+
+**Passing project properties**
+- Multiple ways with different priorities. Here are in descending order by prio:
+1. command line 
+   2. `./gradlew <task-name> -PmyPropName=myPropValue`
+3. java system properties using -D
+   4. `./gradlew <task-name> -Dorg.gradle.project.myPropName=myPropValue`
+5. Environment variables
+   6. `ORG_GRADLE_PROJECT_myPropName=myPropValue ./gradlew publish`
+7. _gradle.properties_ file in user home directory
+   8. Normally `~/.gradle/gradle.properties`
+      8. `myPropName=myPropValue` ... key=value in the file above
+9. _gradle.properties_ file in project root directory
+   10. Commited to version control and shared to team.
+
+**Non-project specific properties**
+- Adding `org.gradle.console=verbose` to the `~/.gradle/gradle.properties` file and all local projects will be verbose.
+- Documentation for the full list of [these properties](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties).
+
+**Accessing project properties**
+```groovy
+tasks.register('print') {
+    doLast {
+        println project.property('myPropName')
+        println project.findProperty('myPropName') // when the property is not found, does not throw error, but returns null
+        println project.findProperty('myPropName1') ?: 'defaultValue' // useful for default val
+    }
+    // check existence
+    if (hasProperty('myPropName1')) {
+        println 'Doing some conditional build logic'
+    }
+}
+```
+
+### 5.3 Multi-project builds
+
 TODO
+
 
 # Tips
 
