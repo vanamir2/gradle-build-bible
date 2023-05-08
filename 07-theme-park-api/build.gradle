@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'application'
 }
 repositories {
     mavenCentral()
@@ -9,6 +9,10 @@ dependencies {
 }
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(20)
+        languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+application {
+    mainClass = 'com.gradlehero.themepark.ThemeParkApplication'
 }
