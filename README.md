@@ -422,7 +422,12 @@ plugins {
 }
 
 testSets {
-    integrationTest # invokes the tests under src/integrationTest/java
+    integrationTest // invokes the tests under src/integrationTest/java
+}
+
+// to invoke integrationTest together under test / check task
+tasks.named('check') {
+    dependsOn tasks.named('integrationTest')
 }
 ```
 
