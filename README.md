@@ -513,7 +513,14 @@ Then you can find your jar in `~/.m2/repository/$group/version/YOUR_JAR` and run
 
 ### 4.12 Practical: Building Spring Boot applications
 
+Spring Boot has embedded web server, Tomcat by default -> you execute the jar file and Tomcat will start serving my app over the network.
 
+There are 2 main plugins to work with Spring Boot
+- Spring Boot plugin
+  - run Spring Boot application
+  - generate and executable jar file
+- Spring Dependency Management plugin
+  - Making sure Spring Boot dependencies stay consistent
 
 
 

@@ -1,0 +1,14 @@
+plugins {
+    id 'java'
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.0.6'
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(20)
+    }
+}
