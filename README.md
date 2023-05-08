@@ -155,7 +155,7 @@ plugins {
 }
 ```
 
-Legacy definition with missiong optimisations and IntelliJ IDEA broken integration:
+Legacy definition with missing optimisations and IntelliJ IDEA broken integration:
 
 ```groovy
 buildscript {
@@ -646,8 +646,37 @@ tasks.register('print') {
 
 ### 5.3 Multi-project builds
 
-TODO
+Why using multi-project builds?
+- Modularisation - enforce interactions between layers
+- Performance
 
+![img.png](./images/performanceMultiProjectBuild.png)
+
+When using sub-modules, the gradle tasks are prefixed with the subproject name. 
+- `:app:run` instead of `run`
+
+**Root project**
+
+Top level project which contains:
+  - `.gradle` cache,
+  - _gradle directory_ with wrapper files
+  - `settings.gradle` file
+  - Gradle wrapper scripts themselves
+
+Only the `build.gradle` lives in the subprojects
+
+**Executing tasks**
+
+By default, any task names you pass to the wrapper script will get executes againts any subproject that contains the task.
+- `./gradlew clean --console=verbose` is executed in all subprojects.
+
+To execute the task only in the specific module, we need to use _fully qualified name_ and _task name_.
+- `./gradlew :app:clean --console=verbose`
+- or `./gradlew app:clean --console=verbose` without the initial ":" is the same.
+
+### 5.4 Practical: creating a multi-project build
+
+TODO
 
 # Tips
 
@@ -675,6 +704,7 @@ tasks.register('sayBye') {
 }
 ```
 
+- Show all subprojects `./gradlew projects`
 - we should **avoid using mavenLocal()**, see detailed info [here](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:case-for-maven-local)
 
 - Plugin to [print task dependencies](https://github.com/dorongold/gradle-task-tree.): 
