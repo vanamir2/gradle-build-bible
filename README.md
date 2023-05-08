@@ -535,7 +535,7 @@ plugins {
 ```
 
 The plugin above provides `./gradlew bootRun` to run the app.
- - After running `./gradlew assemble` we can run simply `java -jar build/libs/07-theme-park-api.jar` to run the Spring Boot app from jar.
+ - After running `./gradlew assemble` (which invokes `bootJar`) we can run simply `java -jar build/libs/07-theme-park-api.jar` to run the Spring Boot app from jar.
 
 # Tips
 
