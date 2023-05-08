@@ -431,9 +431,39 @@ tasks.named('check') {
 }
 ```
 
+
 ### 4.10 Controlling Java versions
 
+By default, Gradle uses JAVA_HOME or PATH environment variables.
+- This is problematic, because there might be different Java version for different developers and production.
+
+#### Java toolchains
+
+- Secures that the specific Java version is used.
+- It tries to find the version on localhost otherwise it will automatically download the version from the internet.
+- You can use different version to compile, run and test my app.
+  - Tasks _JavaExec_, _JavaCompile_ and _Test_ will use the version specified by toolchain config, but it can be overridden at the task level.
+
+```groovy
+// Use Java 11 by default for compile, run and test
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+// Application will run with Java 16 (overrides the settings above)
+tasks.withType(JavaExec).configureEach {
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(16)
+    }
+}
+```
+
+### 4.11 Publishing to Maven
+
 TODO
+
+
 
 
 # Tips
@@ -466,3 +496,22 @@ tasks.register('sayBye') {
 
 - Plugin to [print task dependencies](https://github.com/dorongold/gradle-task-tree.): 
   - `./gradlew build taskTree` 
+
+- Toolchain full example
+  - ```groovy
+      tasks.withType(JavaCompile).configureEach {
+          javaCompiler = javaToolchains.compilerFor {
+              languageVersion = JavaLanguageVersion.of(11)
+              }
+          }
+      tasks.withType(JavaExec).configureEach {
+          javaLauncher = javaToolchains.launcherFor {
+              languageVersion = JavaLanguageVersion.of(17)
+          }
+      }
+      tasks.withType(Test).configureEach {
+          javaLauncher = javaToolchains.launcherFor {
+              languageVersion = JavaLanguageVersion.of(17)
+          }
+      }
+      ```
