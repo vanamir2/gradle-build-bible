@@ -427,7 +427,16 @@ TODO
 
 # Tips
 
+## Debug tips
+
 - Verbose console: `--console=verbose `
+- `./gradlew build -i` .. for info level output
+- `./gradlew build --warning-mode all --stacktrace` useful for deprecated warnings
+- Everything 
+  - `./gradlew build --warning-mode all --stacktrace -i --console=verbose`
+
+## Other tips
+
 - Wrapper upgrade from CMD `./gradlew wrapper --gradle-version 8.0.2`
 - help for specific command `gradle help --task wrapper`
 - Tasks default parameters (configuration like group, description, enabled) is [here](https://docs.gradle.org/current/javadoc/org/gradle/api/Task.html) - look for setters.
