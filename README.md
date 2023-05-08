@@ -263,7 +263,7 @@ tasks.named('jar') {
 Gradle _build_ task has no actions, it only aggregate _assemble_ and _check_ tasks together.
 - Similar tasks like _build_ tasks are sometimes called lifecycle tasks in Gradle documentation.
 
-![img.png](BuildTasks.png)
+![img.png](./images/BuildTasks.png)
 
 Plugin to print task dependencies: https://github.com/dorongold/gradle-task-tree.
  - `./gradlew build taskTree` 
@@ -278,7 +278,7 @@ Why not to make life easier and use the same classpath for compiling and running
 - compile classpath clean = compilation is more efficient, since Java doesn't have to load unnecessary libraries
 - runtime classpath clean = reduced size of our deployable (not needed libraries are not included)
 
-![img.png](productionClasspath.png)
+![img.png](./images/productionClasspath.png)
 
 #### 4.5.1 Resolvable vs Unresolvable
 
@@ -299,7 +299,7 @@ To some extent, this is similar to an abstract class (canBeResolved=false) which
 
 **Test classpaths**
 
-![img.png](testCLasspaths.png)
+![img.png](./images/testCLasspaths.png)
 
 
 **Annotation procesors**
@@ -381,7 +381,7 @@ tasks.register('runJar', JavaExec) {
 
 It is possible to debug Gradle tasks
 
-![img.png](debugGradleTask.png)
+![img.png](./images/debugGradleTask.png)
 
 
 ### 4.8 Testing Java applications
@@ -409,7 +409,7 @@ It is possible to run Gradle tests with [various settings](https://docs.gradle.o
 - Tests are cached by default and in case there are no changes to code, then the Gradle expect that the results will be the same again. 
 To re-run test again use `cleanTest` to prevent unneeded build of the whole project. Do not use `clean`!
 
-![img.png](cachedTestTasks.png)
+![img.png](./images/cachedTestTasks.png)
 
 
 ### 4.9 Adding integration tests to a project
@@ -536,6 +536,12 @@ plugins {
 
 The plugin above provides `./gradlew bootRun` to run the app.
  - After running `./gradlew assemble` (which invokes `bootJar`) we can run simply `java -jar build/libs/07-theme-park-api.jar` to run the Spring Boot app from jar.
+
+### 4.13 Building Java libraries
+
+TODO
+
+
 
 # Tips
 
