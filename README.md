@@ -676,7 +676,13 @@ To execute the task only in the specific module, we need to use _fully qualified
 
 ### 5.4 Practical: creating a multi-project build
 
-TODO
+See 09-theme-park-manager
+
+
+
+### 5.4 Practical: creating a multi-project build
+
+
 
 # Tips
 
