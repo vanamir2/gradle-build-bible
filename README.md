@@ -678,11 +678,164 @@ To execute the task only in the specific module, we need to use _fully qualified
 
 See 09-theme-park-manager
 
+### 5.5 Working with files
+
+#### A) Single  files and directories
+
+Copying a single file
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from 'descriptions/rollercoaster.txt'
+    into "$buildDir/descriptions"
+}
+```
+
+the same result written in a different form
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from file('descriptions/rollercoaster.txt')
+    into file("$buildDir/descriptions")
+}
+```
+
+another form is to use `project.layout` object which provides helpful references to other directories
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from file('descriptions/rollercoaster.txt')
+    into layout.buildDirectory.dir('descriptions')
+}
+```
+
+#### B) Multiple files and directories
+
+Let's assume following structure
+
+```shell
+descriptions/
+├── log-flume.txt
+├── rollercoaster.txt
+├── sub
+│ └── dodgems.txt
+└── teacups.txt
+```
+
+The simplest approach is to specify the directory as a string.
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from 'descriptions'
+    into layout.buildDirectory.dir('descriptions')
+}
+```
+
+The same result using file:
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from file('descriptions')
+    into layout.buildDirectory.dir('descriptions')
+}
+```
+
+Or we can use explicit definition layout.projectDirectory.dir:
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from layout.projectDirectory.dir('descriptions')
+    into layout.buildDirectory.dir('descriptions')
+}
+```
+
+Or you can pass FileTree object - FileTree represents a collection of files with a common parent directory.
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from fileTree(layout.projectDirectory.dir('descriptions'))
+    into layout.buildDirectory.dir('descriptions')
+}
+```
+
+FileTree is useful because you can include your own pattern like this:
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from fileTree(layout.projectDirectory) {
+        include 'descriptions/**'
+    }
+    into buildDir
+}
+```
+
+And you can achieve exactly the same output using include method on the Copy task. 
+- FileTree offers more flexibility, as you could copy from multiple file trees each with their own specific include. 
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from layout.projectDirectory
+    include 'descriptions/**'
+    into buildDir
+}
+```
+
+Output of the commands above is always:
+
+```shell
+build
+└── descriptions
+    ├── log-flume.txt
+    ├── rollercoaster.txt
+    ├── sub
+    │   └── dodgems.txt
+    └── teacups.txt
+```
 
 
-### 5.4 Practical: creating a multi-project build
+#### C) Multiple files without directory structure
+
+The last scenario is when you want to copy multiple files without the directory structure. To do this
+we need to use a different type called a FileCollection.
+
+We need to use FileCollection which is like FileTree, but it doesn't maintain the original directory structure.
+
+We can actually generate a fileCollection from a fileTree by
+adding .files on the end. We also have to specify the descriptions directory again when we call
+into.
+
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from fileTree(layout.projectDirectory.dir('descriptions')).files
+    into layout.buildDirectory.dir('descriptions')
+}
+```
+
+The output of the command above is:
+
+```shell
+build
+└── descriptions
+    ├── dodgems.txt
+    ├── log-flume.txt
+    ├── rollercoaster.txt
+    └── teacups.txt
+```
+
+Another way is to call project.files and pass relative path of each file.
+```groovy
+tasks.register('generateDescriptions', Copy) {
+    from files(
+            'descriptions/rollercoaster.txt',
+            'descriptions/log-flume.txt',
+            'descriptions/teacups.txt',
+            'descriptions/sub/dodgems.txt')
+    into layout.buildDirectory.dir('descriptions')
+}
+```
 
 
+#### Zip task
+
+TODO
 
 # Tips
 
