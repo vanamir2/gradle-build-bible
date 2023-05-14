@@ -909,3 +909,12 @@ tasks.register('sayBye') {
           }
       }
       ```
+    
+- How to exclude libraries globally?
+
+```groovy
+configurations.all {
+   exclude group:"org.apache.geronimo.specs", module: "geronimo-servlet_2.5_spec"
+   exclude group:"ch.qos.logback", module:"logback-core"
+}
+```
