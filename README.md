@@ -832,10 +832,32 @@ tasks.register('generateDescriptions', Copy) {
 }
 ```
 
-
 #### Zip task
 
 TODO
+
+## Dependencies - configurations
+
+Definition of [different kind of dependencies](https://docs.gradle.org/current/userguide/dependency_management.html#sec:dependency-types). 
+
+Configurations are buckets for dependencies (like _implementation_, _api_, ..).
+
+```groovy
+configurations {
+    antContrib
+    externalLibs
+    deploymentTools
+}
+
+dependencies {
+    antContrib files('ant/antcontrib.jar')
+    externalLibs files('libs/commons-lang.jar', 'libs/log4j.jar')
+    deploymentTools(fileTree('tools') { include '*.exe' })
+}
+```
+
+The example above defines several custom configurations.
+- And I do not know what is ther default behaviour :( ... needs more study
 
 # Tips
 
