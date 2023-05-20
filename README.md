@@ -891,10 +891,41 @@ subproject
 
 ### 5.7 Creating custom tasks
 
-TODO
+The easiest way how to define your own task is definition inside a `build.gradle` file, you can for example define a custom task to print which file has bigger size with file params.
 
+```groovy
+tasks.register('fileDiff', FileDiffTask) {
+    file1 = file('src/main/resources/static/images/rollercoaster.jpg')
+    file2 = file('src/main/resources/static/images/logflume.jpg')
+}
 
+abstract class FileDiffTask extends DefaultTask {
+    @TaskAction
+    def diff() {
+        File file1 = getFile1().get().asFile
+        File file2 = getFile2().get().asFile
+        if (file1.size() == file2.size()) {
+            println "${file1.name} and ${file2.name} have the same size"
+        } else if (file1.size() > file2.size()) {
+            println "${file1.name} was larger"
+        } else {
+            println "${file2.name} was larger"
+        }
+    }
 
+    @InputFile // this is important to enable UP-TO-DATE Gradle feature
+    abstract RegularFileProperty getFile1()
+
+    @InputFile
+    abstract RegularFileProperty getFile2()
+}
+```
+
+To see an example how to move this under buildSrc - see _09-theme-park-manager_.
+
+### 5.8 Creating custom plugins
+
+TODO 229
 
 
 
