@@ -910,6 +910,9 @@ tasks.register('sayBye') {
       }
       ```
     
+- How to check available SDKs for toolchain?
+  - `./gradlew -q javaToolchains`
+
 - How to exclude libraries globally?
 
 ```groovy
