@@ -848,7 +848,53 @@ tasks.register('zipDescriptions', Zip) {
 
 ### 5.6 buildSrc & convention plugins
 
+**_buildSrc_** is one such mechanism, which lets you pull logic out of your build script into a directory
+called buildSrc at the top level of your project. This extracted build code can then be reused in any
+project of your build, which both cleans up your build scripts and promotes reuse.
+
+
+#### Convention plugins
+
+Convention plugins are a way of applying the same build logic to multiple subprojects. They are local plugins.
+
+**How to define Convention plugin?**
+
+Create /buildSrc directory with the file build.gradle and put there:
+
+```groovy
+plugins {
+    id 'groovy-gradle-plugin' // Groovy convention plugin
+}
+```
+
+Then we will create the following structure under:
+`buildScr/src/main/groovy/com.gradlehero.themepark-conventions.gradle`
+- We can write there any build logis as it would be build.gradle file. When the plugin gets applied to a project, the logic contained in this file will be applied.
+
+The last step is to apply our convention plugin to subprojects
+
+```groovy
+plugins {
+    //other plugins ...
+    id 'com.gradlehero.themepark-conventions'
+}
+```
+
+**Summary**
+- as projects grow the complexity of the build logic grows too
+- reduce complexity by extracting build logic into the buildSrc directory
+- code within buildSrc can be reused within any project of your build
+-  extract build logic into a convention plugin, then apply it to specific subprojects
+- use multiple convention plugins to apply different build logic to different categories of
+subproject
+
+
+### 5.7 Creating custom tasks
+
 TODO
+
+
+
 
 
 
