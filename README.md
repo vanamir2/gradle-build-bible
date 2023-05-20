@@ -936,7 +936,7 @@ Example with plugin definition is in 11-file-diff-plugin.
 
 ### 5.10 Testing custom plugins
 
-TODO
+See 11-file-diff-plugin and its tests to see plugin explanatory testing.
 
 
 
