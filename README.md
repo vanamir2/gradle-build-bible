@@ -834,11 +834,27 @@ tasks.register('generateDescriptions', Copy) {
 
 #### Zip task
 
+The following Zip task takes input from another task called _generateDescriptions_, output is under /build/zips-here/destinations.zip 
+
+```groovy
+tasks.register('zipDescriptions', Zip) {
+    from generateDescriptions
+    destinationDirectory = layout.buildDirectory.dir('zips-here')
+    // alternative
+    // destinationDirectory = file("$buildDir/zips-here")
+    archiveFileName = 'descriptions.zip'
+}
+```
+
+### 5.6 buildSrc & convention plugins
+
 TODO
+
+
 
 ## Dependencies - configurations
 
-Definition of [different kind of dependencies](https://docs.gradle.org/current/userguide/dependency_management.html#sec:dependency-types). 
+Definition of [custom dependencies](https://docs.gradle.org/current/userguide/dependency_management.html#sec:dependency-types). 
 
 Configurations are buckets for dependencies (like _implementation_, _api_, ..).
 
