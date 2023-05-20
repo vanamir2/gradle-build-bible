@@ -925,7 +925,11 @@ To see an example how to move this under buildSrc - see _09-theme-park-manager_.
 
 ### 5.8 Creating custom plugins
 
-TODO 229
+We can define plugins the same way as tasks - inside the build.gradle file and extend them to take advantage of custom params.
+
+### 5.9 Sharing custom plugins
+
+
 
 
 
