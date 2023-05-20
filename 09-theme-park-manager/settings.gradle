@@ -7,8 +7,17 @@
  * in the user manual at https://docs.gradle.org/7.6/userguide/multi_project_builds.html
  */
 
+// where to find plugins
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenLocal()
+    }
+}
+
 rootProject.name = '09-theme-park-manager'
 
 include 'api'
 include 'service'
 include 'ui'
+

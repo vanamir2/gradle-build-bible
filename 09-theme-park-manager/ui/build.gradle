@@ -1,7 +1,8 @@
-import com.gradlehero.themepark.FileDiffTask
+//import com.gradlehero.themepark.FileDiffTask
 
 plugins {
     id 'java-library'
+    id 'com.gradlehero.file-diff' version '0.1.0-SNAPSHOT'
 }
 
 // the following generates downloadable files for lesson "Practical: creating a multi-project build" so can be ignored
@@ -24,25 +25,25 @@ tasks.named('assemble').configure {
     dependsOn tasks.named('downloadable'), tasks.named('downloadableZip')
 }
 
-apply plugin: FileDiffPlugin
-
 fileDiff {
     file1 = file('src/main/resources/static/images/teacups.jpg')
     file2 = file('src/main/resources/static/images/logflume.jpg')
 }
 
-class FileDiffPlugin implements Plugin<Project> {
-    void apply(Project project) {
-        FileDiffPluginExtension extension = project.extensions.create('fileDiff', FileDiffPluginExtension)
-        project.tasks.register('fileDiff', FileDiffTask) {
-            file1 = extension.getFile1()
-            file2 = extension.getFile2()
-        }
-    }
-}
+//apply plugin: FileDiffPlugin
 
-abstract class FileDiffPluginExtension {
-    abstract RegularFileProperty getFile1()
-    abstract RegularFileProperty getFile2()
-}
+//class FileDiffPlugin implements Plugin<Project> {
+//    void apply(Project project) {
+//        FileDiffPluginExtension extension = project.extensions.create('fileDiff', FileDiffPluginExtension)
+//        project.tasks.register('fileDiff', FileDiffTask) {
+//            file1 = extension.getFile1()
+//            file2 = extension.getFile2()
+//        }
+//    }
+//}
+//
+//abstract class FileDiffPluginExtension {
+//    abstract RegularFileProperty getFile1()
+//    abstract RegularFileProperty getFile2()
+//}
 

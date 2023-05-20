@@ -929,6 +929,17 @@ We can define plugins the same way as tasks - inside the build.gradle file and e
 
 ### 5.9 Sharing custom plugins
 
+Plugins can be written in any JVM language including Java, Groovy or Kotlin.
+
+Example with plugin definition is in 11-file-diff-plugin.
+- The plugin is published to maven repo using `./gradlew publishToMavenLocal` and consumed by a standard plugin definition and changes to settings.gradle in 09-theme-park-manager
+
+### 5.10 Testing custom plugins
+
+TODO
+
+
+
 
 
 

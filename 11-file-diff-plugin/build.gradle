@@ -1,0 +1,18 @@
+plugins {
+    id 'groovy-gradle-plugin'
+    id 'maven-publish'
+}
+
+group = 'com.gradlehero'
+version = '0.1.0-SNAPSHOT'
+
+gradlePlugin {
+    plugins {
+        fileDiff {  //name of the plugin
+            // the identifier used to apply the plugin within the build script, so include a unique namespace
+            id = 'com.gradlehero.file-diff'
+            // class that implements the plugin
+            implementationClass = 'com.gradlehero.FileDiffPlugin'
+        }
+    }
+}
