@@ -943,6 +943,10 @@ See 11-file-diff-plugin and its tests to see plugin explanatory testing.
 
 
 
+# Build scans
+
+[Watch video series](https://gradle.com/build-scan-bite-sized-user-essentials/?wchannelid=77p5g73y4a)
+
 
 ## Dependencies - configurations
 
@@ -1029,3 +1033,14 @@ configurations.all {
    exclude group:"ch.qos.logback", module:"logback-core"
 }
 ```
+
+Platform vs Version catalog
+- https://docs.gradle.org/current/userguide/platforms.html#sub:platforms-vs-catalog
+- Blog about version catalog in Micronaut
+  - https://melix.github.io/blog/2023/03-12-micronaut-catalogs.html
+
+How to share version catalog between multiple projects?
+- https://blog.mrhaki.com/2023/03/gradle-goodness-publish-version-catalog.html
+
+Migration from Groovy DSL to Kotlin DSL
+- https://www.youtube.com/watch?v=HrBKDmmKkaU&ab_channel=Gradle
