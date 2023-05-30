@@ -1025,6 +1025,12 @@ tasks.register('sayBye') {
 - How to check available SDKs for toolchain?
   - `./gradlew -q javaToolchains`
 
+- How to **rerun tasks** without using cache?
+  - `./gradlew help --no-build-cache --rerun-tasks`
+
+- How to see **simple** **profiling**?
+  - `./gradlew help --profile --offline --rerun-tasks`
+
 - How to exclude libraries globally?
 
 ```groovy
