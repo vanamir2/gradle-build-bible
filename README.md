@@ -1067,3 +1067,4 @@ With each removed TODO it would be nice to add some info of its outcome / tips.
   - Udělat si nový modul v mdm (gradle modul) a použít tam import platform depdencies a podívat se co vše se nabere.
 - MDM - Add -pDoDev as a default into task definition in build.gradle and put there if(CI) -> then perform complete build
   - and maybe add another param to enable localhost invokal by some true/false flag in settings.gradle
+- MDM - 8.1 upgrade
