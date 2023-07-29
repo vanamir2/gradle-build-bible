@@ -971,6 +971,93 @@ dependencies {
 The example above defines several custom configurations.
 - And I do not know what is ther default behaviour :( ... needs more study
 
+
+### JVM Builds with Gradle Build Tool - EMEA - course
+
+![img.png](img.png)
+
+#### sourceSets
+
+- they are usefull in case we have some generated classes and we want to add those sources under existing build classpath (under /build directory)
+
+```kotlin
+tasks.register<Copy>("generateMlCode") {
+    from(layout.projectDirectory.dir("../mlCodeGenTemplate"))
+    into(layout.buildDirectory.dir("generated/sources/mlCode"))
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir(tasks.named("generateMlCode"))
+        }
+    }
+}
+
+```
+
+We can also add a custom sourceSet for example to start our application in some special debug mode:
+
+```kotlin
+val extraSrc = sourceSets.create("extra")
+dependencies {
+    "extraImplementation"("joda-time:joda-time:2.11.1")
+}
+```
+
+And then we can also add a custom exec task to run it
+
+```kotlin
+tasks.register<JavaExec>("runExtra"){
+    classpath = extraSrc.output + extraSrc.runtimeClasspath
+    mainClass.set("Extra")
+}
+```
+See https://github.com/gradle/build-tool-training-exercises/tree/main/Jvm_Builds_with_Gradle_Build_Tool/exercise1 for more info.
+
+It is possible to debug current sourceSets using helpful task:
+
+```kotlin
+tasks.register("sourceSetsInfo") {
+    doLast {
+        val projectPath = layout.projectDirectory.asFile.toPath()
+        val gradleHomePath: Path = gradle.gradleUserHomeDir.toPath()
+        val cachePath: Path = Paths.get(gradleHomePath.toString(), "caches/modules-2/files-2.1/")
+
+
+        sourceSets.forEach {
+            val sourceSet = it
+            println()
+            println("[" + sourceSet.name + "]")
+
+            println("   srcDirs:")
+            sourceSet.allSource.srcDirs.forEach {
+                println("      " + projectPath.relativize(it.toPath()))
+            }
+
+            println("   outputs:")
+            sourceSet.output.classesDirs.files.forEach {
+                println("      " + projectPath.relativize(it.toPath()))
+            }
+            println("   impl dependency configuration:")
+            println("      " + sourceSet.implementationConfigurationName)
+
+            println("   compile task:")
+            println("      " + sourceSet.compileJavaTaskName)
+
+            println("   compile classpath:")
+            sourceSet.compileClasspath.files.forEach {
+                if (it.toString().contains(".gradle/")) {
+                    println("      " + cachePath.relativize(it.toPath()))
+                } else {
+                    println("      " + projectPath.relativize(it.toPath()))
+                }
+            }
+        }
+    }
+}
+```
+
 # Tips
 
 ## Debug tips
