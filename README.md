@@ -1056,7 +1056,32 @@ tasks.register("sourceSetsInfo") {
         }
     }
 }
+
 ```
+
+#### Compilation
+
+Use toolchains - https://docs.gradle.org/current/userguide/toolchains.html
+
+Old sourceCompatibility are deprecated
+
+```groovy
+java {
+    sourceCompatibility = "1.6"
+    targetCompatibility = "1.8"
+}
+```
+
+Talking about **buckets** and **resolved dependencies**
+- bucket = implementation, compileOnly, etc.. groups to define dependencies  - using abstract concept _DefaultExternalModuleDependencu_
+- resolved dependencies = under the hood classpaths using .jars
+
+
+#### Verification
+
+2:22:00 TODO 
+
+
 
 # Tips
 
