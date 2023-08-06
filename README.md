@@ -972,11 +972,11 @@ The example above defines several custom configurations.
 - And I do not know what is ther default behaviour :( ... needs more study
 
 
-### JVM Builds with Gradle Build Tool - EMEA - course
+## JVM Builds with Gradle Build Tool - EMEA - course
 
 ![img.png](img.png)
 
-#### sourceSets
+### sourceSets
 
 - they are usefull in case we have some generated classes and we want to add those sources under existing build classpath (under /build directory)
 
@@ -989,12 +989,21 @@ tasks.register<Copy>("generateMlCode") {
 sourceSets {
     main {
         java {
-            srcDir(tasks.named("generateMlCode"))
+            srcDir(tasks.named("generateMlCode")) // adds output of the task under srcDir
         }
     }
 }
-
 ```
+
+Previous sourceSets definition adds another source directory to "main" sourceset. It will be like:
+```groovy
+[main]
+   srcDirs:
+      src/main/resources
+      src/main/java
+      build/generated/sources/mlCode
+```
+
 
 We can also add a custom sourceSet for example to start our application in some special debug mode:
 
@@ -1018,16 +1027,19 @@ See https://github.com/gradle/build-tool-training-exercises/tree/main/Jvm_Builds
 It is possible to debug current sourceSets using helpful task:
 
 ```kotlin
+import java.nio.file.Path
+import java.nio.file.Paths
+
 tasks.register("sourceSetsInfo") {
     doLast {
-        val projectPath = layout.projectDirectory.asFile.toPath()
-        val gradleHomePath: Path = gradle.gradleUserHomeDir.toPath()
-        val cachePath: Path = Paths.get(gradleHomePath.toString(), "caches/modules-2/files-2.1/")
+        Path projectPath = layout.projectDirectory.asFile.toPath()
+        Path gradleHomePath = gradle.gradleUserHomeDir.toPath()
+        Path cachePath = Paths.get(gradleHomePath.toString(), "caches/modules-2/files-2.1/")
 
 
         sourceSets.forEach {
-            val sourceSet = it
-            println()
+            SourceSet sourceSet = it
+                    println()
             println("[" + sourceSet.name + "]")
 
             println("   srcDirs:")
@@ -1059,7 +1071,7 @@ tasks.register("sourceSetsInfo") {
 
 ```
 
-#### Compilation
+### Compilation
 
 Use toolchains - https://docs.gradle.org/current/userguide/toolchains.html
 
@@ -1077,10 +1089,43 @@ Talking about **buckets** and **resolved dependencies**
 - resolved dependencies = under the hood classpaths using .jars
 
 
-#### Verification
+### Verification
 
-2:22:00 TODO 
+#### Creating test groupings
 
+A] Manual
+- create SourceSeet
+- configure dependencies
+- Configure classpaths
+- Create custom tasks (for running for example)
+
+B] Use JVM Test Suites plugin
+- automates a lot of the work
+- it is already bundled in 'java' plugin
+
+Usage:
+
+- 'java' plugin
+- following code in build.gradle:
+- add \<intTest\>/java/\<package\> under 'src' (same level as "main" and "test" folders)
+- add some tests/code under this test suite
+- use predefined tasks "compileIntTestJava" and "intTest" to run
+
+```groovy
+testing {
+     suites {
+         val intTest by registering(JvmTestSuite::class) {
+             dependencies {
+                 implementation(project)
+                 implementation("org.seleniumhq.selenium:selenium-java:4.9.0")
+             }
+         }
+     }
+}
+```
+
+### Test Coverage
+2:37:00
 
 
 # Tips
