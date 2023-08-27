@@ -1125,7 +1125,58 @@ testing {
 ```
 
 ### Test Coverage
-2:37:00
+
+[Jacoco](https://docs.gradle.org/current/userguide/jacoco_plugin.html)
+
+- we can enforce code coverage
+
+Example of configuration in Kotlin DSL
+```kotlin
+
+plugins {
+ jacoco
+}
+tasks.named("test") {
+ finalizedBy("jacocoTestReport")
+}
+tasks.named("jacocoTestReport") {
+ dependsOn("test")
+}
+tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    dependsOn("jacocoTestReport")
+     violationRules {
+         rule {
+             limit {
+                 counter = "LINE"
+                 value = "COVEREDRATIO"
+                 minimum = "0.9".toBigDecimal()
+             }
+         }
+     }
+}
+tasks.named("check") {
+ dependsOn("jacocoTestCoverageVerification")
+}
+
+```
+
+
+**Code style**
+
+Java
+- Checkstyle https://docs.gradle.org/current/userguide/checkstyle_plugin.html
+  - specify tool version
+  - add checkstyle rules
+    - Google https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml
+    - AWS https://github.com/aws/aws-sdk-java-v2/blob/master/build-tools/src/main/resources/software/amazon/awssdk/checkstyle.xml
+
+**Static code analysis**
+- spotbugs https://plugins.gradle.org/plugin/com.github.spotbugs
+
+### Packaging
+
+- TODO  3:20:00
+
 
 
 # Tips
@@ -1224,4 +1275,6 @@ With each removed TODO it would be nice to add some info of its outcome / tips.
   - Udělat si nový modul v mdm (gradle modul) a použít tam import platform depdencies a podívat se co vše se nabere.
 - MDM - Add -pDoDev as a default into task definition in build.gradle and put there if(CI) -> then perform complete build
   - and maybe add another param to enable localhost invokal by some true/false flag in settings.gradle
-- MDM - 8.1 upgrade
+- Check Jacoco setup in MDM
+- Try out checkstyle plugin in MDM and explore formatting possibilities using IDEA plugin
+- 
