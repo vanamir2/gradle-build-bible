@@ -1264,17 +1264,17 @@ Migration from Groovy DSL to Kotlin DSL
 # ToDos
 With each removed TODO it would be nice to add some info of its outcome / tips.
 
-- Try out Gradle profiler https://github.com/gradle/gradle-profiler
-- Try Gradle 8.1 configuration cache https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage:enable
-- Gradle performance - parallel tests: https://docs.gradle.org/current/userguide/performance.html#execute_tests_in_parallel
-- Max parallel forks> https://docs.gradle.org/current/dsl/org.gradle.api.tasks.testing.Test.html#org.gradle.api.tasks.testing.Test:maxParallelForks
-- read about SBOMs and write it down to this repo
+- [ ] Try out Gradle profiler https://github.com/gradle/gradle-profiler
+- [ ] Try Gradle 8.1 configuration cache https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage:enable
+- [ ] Gradle performance - parallel tests: https://docs.gradle.org/current/userguide/performance.html#execute_tests_in_parallel
+- [ ] Max parallel forks> https://docs.gradle.org/current/dsl/org.gradle.api.tasks.testing.Test.html#org.gradle.api.tasks.testing.Test:maxParallelForks
+- [ ] read about SBOMs and write it down to this repo
   - https://octopus.com/blog/what-are-sboms
-- Add build scans under MDM CI to be browsable and downloadable after build in CI
-- MDM Platform knowledge / test 
+- [ ] Add build scans under MDM CI to be browsable and downloadable after build in CI
+- [ ] MDM Platform knowledge / test 
   - Udělat si nový modul v mdm (gradle modul) a použít tam import platform depdencies a podívat se co vše se nabere.
-- MDM - Add -pDoDev as a default into task definition in build.gradle and put there if(CI) -> then perform complete build
+- [ ] MDM - Add -pDoDev as a default into task definition in build.gradle and put there if(CI) -> then perform complete build
   - and maybe add another param to enable localhost invokal by some true/false flag in settings.gradle
-- Check Jacoco setup in MDM
-- Try out checkstyle plugin in MDM and explore formatting possibilities using IDEA plugin
-- 
+- [ ] Check Jacoco setup in MDM
+- [x] Try out [checkstyle plugin](https://docs.gradle.org/current/userguide/checkstyle_plugin.html) in MDM and explore formatting possibilities using IDEA plugin
+    - it only checks the code standards, it does not refactor the code 
